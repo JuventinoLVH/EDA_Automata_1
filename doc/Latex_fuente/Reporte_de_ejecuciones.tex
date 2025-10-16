@@ -1,0 +1,222 @@
+\documentclass[
+	12pt,
+	spanish,
+]{./recursos/fphw}
+
+% Paqueteria
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}     
+\usepackage[T1]{fontenc}        
+\usepackage{hhline}
+\usepackage{booktabs} 
+\usepackage{mathpazo}          
+\usepackage{caption}           
+\usepackage{graphicx} 
+\usepackage{multicol}          
+\usepackage{enumerate}          
+\usepackage{enumitem}
+\usepackage{listingsutf8}
+\usepackage{amsmath}
+\usepackage{subcaption}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{arydshln}
+\graphicspath{ {./recursos/fotos} }
+
+\newcommand{\textbfit}[1]{\textit{\textbf{#1}}}
+\newcommand{\figura}[1]{\textbf{figura \ref{fig:#1}}}
+
+\lstset{inputencoding=utf8/latin1}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{gray},
+    keywordstyle=\color{magenta},
+    stringstyle=\color{purple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    frame=single
+}
+\lstset{style=mystyle}
+
+\newcolumntype{w}{>{\columncolor{white!20!}}c}
+\newcolumntype{g}{>{\columncolor{gray!20!}}c}
+
+\begin{document}
+
+% Portada
+\title{Automata practica 1}
+\author{Luis Juventino Velasquez Hidalgo} 
+\begin{titlepage} 
+    \center 
+    \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+
+    %------------------------------------------------
+    %	HEADINGS
+    %------------------------------------------------
+    \textsc{\LARGE Centro de Investigación en Computación \\ Instituto Politécnico Nacional }\\[1.5cm]
+    \textsc{\Large Maestría en Ciencias en Ingeniería de Cómputo}\\[0.5cm]
+    \textsc{\large Archivo de especificaciones}\\[0.5cm]
+
+    %------------------------------------------------
+    %	Title
+    %------------------------------------------------
+    \HRule\\[0.4cm]
+    \huge\bfseries Automata practica 1\\[0.4cm]
+    \HRule\\[1.5cm]
+
+    %------------------------------------------------
+    %	Author(s)
+    %------------------------------------------------
+    %\begin{minipage}{0.4\textwidth}
+    %    \begin{flushleft}
+    %        \large
+    %        \textit{Autor}\\
+    %        \textsc{Luis Juventino Velasquez Hidalgo} 
+    %    \end{flushleft}
+    %\end{minipage}
+    %\begin{minipage}{0.4\textwidth}
+    %    \begin{flushright}
+    %        \large
+    %        \textit{Profesor}\\
+    %        \textsc{Osvaldo Espinosa Sosa} 
+    %    \end{flushright}
+    %\end{minipage}
+
+    %------------------------------------------------
+    %	Logo
+    %------------------------------------------------
+    \vfill\vfill
+    \includegraphics[width=0.4\textwidth]{CIC.jpg}
+     
+    %------------------------------------------------
+    %	Date
+    %------------------------------------------------
+    \vfill\vfill\vfill 
+    \large\today 
+    \vfill 
+\end{titlepage}
+
+% ---------------- Introducción ------------------
+\section{Introducción}
+
+    El diseño presente en esté documento corresponde a un autómata genérico y sencillo. Tiene como propósito el ser
+    usado para practicar el uso de herramientas de verificación y simulación.\\
+
+    \subsection{Descripción del autómata}
+    La señal de salida se comporta como un contador, su valor cambia a alto cuando la señal de entrada recibe dos pulsos en alto independiente de la cantidad de ceros entre ellos. Una vez que la salida se activa, el autómata regresa a su estado inicial.\\ 
+    Para activar nuevamente la salida, se deben recibir otros dos pulsos en alto en la entrada.\\
+
+    \subsection{Reset}
+    El autómata cuenta con una señal de reset sincrónico, activo en alto. Cuando se activa, el autómata pasa a un estado de reposo en donde la salida se encuentra en bajo. Una vez que el reset se desactiva, el autómata pasa a su estado inicial y comienza a contar los pulsos en la entrada.\\
+    
+
+
+% ----------------------------------------------------------------
+\section{Entradas y salidas}
+    \begin{center} \begin{tabular}{| c | c | c |}
+            Señal           & tamaño  &  dirección \\ \hline \hline
+            clk             & 1       &  Entrada   \\ \hline
+            rst             & 1       &  Entrada   \\ \hline
+            din             & 1       &  Entrada   \\ \hline
+            dout            & 1       &  Salida    \\ \hline
+        \end{tabular}
+        \label{tab:tabla_estados}
+    \end{center}
+
+
+% ----------------------------------------------------------------
+\section{Reloj, reset y operaciónes}
+
+\subsection{Reloj}
+
+    El autómata es síncrono. La frecuencia del reloj es libre de definir, pero las simulaciones están hechas con un reloj de 100 Hz.
+
+\subsection{rst}
+
+    Se trata de un reset sincrónico, activo en alto. Cuando se activa, el autómata regresa al estado $idle$.
+
+\subsection{din}
+    \subsection*{Tabla de estados}
+    \begin{center} \begin{tabular}{r || c:c || c:c }
+            Estado          & reset   &  din     & Transición       & dout   \\ \hline \hline
+            idle            & 1       &  -       & idle             & 0      \\ \hline
+            idle            & 0       &  -       & $s_0$            & 0      \\ \hline
+            $s_0$           & -       &  0       & $s_0$            & 0      \\ \hline
+            $s_0$           & -       &  1       & $s_1$            & 0      \\ \hline
+            $s_1$           & -       &  0       & $s_1$            & 0      \\ \hline
+            $s_1$           & -       &  1       & $s_0$            & 1      \\ \hline
+        \end{tabular}
+        \captionof{table}{Tabla de transiciones.}
+        \label{tab:tabla_estados}
+    \end{center}
+
+\subsection{Diagrama de estados}
+    \begin{center} \begin{tikzpicture}[scale=0.2]
+            \tikzstyle{every node}+=[inner sep=0pt]
+            \draw [black] (10,-10.5) circle (3);
+            \draw (10,-10.5) node {$idle$};
+            \draw [black] (26.4,-10.5) circle (3);
+            \draw (26.4,-10.5) node {$s_0$};
+            \draw [black] (26.4,-22.4) circle (3);
+            \draw (26.4,-22.4) node {$s_1$};
+            \draw [black] (12.961,-10.023) arc (97.11908:82.88092:42.272);
+            \fill [black] (23.44,-10.02) -- (22.71,-9.43) -- (22.58,-10.42);
+            \draw (18.2,-9.2) node [above] {$reset=0$};
+            \draw [black] (8.677,-7.82) arc (234:-54:2.25);
+            \draw (10,-3.25) node [above] {$reset=1$};
+            \fill [black] (11.32,-7.82) -- (12.2,-7.47) -- (11.39,-6.88);
+            \draw [black] (28.86,-12.168) arc (42.33573:-42.33573:6.358);
+            \fill [black] (28.86,-12.17) -- (29.03,-13.1) -- (29.77,-12.42);
+            \draw (31.02,-16.45) node [right] {$din=1$};
+            \draw [black] (23.923,-20.758) arc (-137.12445:-222.87555:6.331);
+            \fill [black] (23.92,-20.76) -- (23.75,-19.83) -- (23.01,-20.51);
+            \draw (21.73,-16.45) node [left] {$din=1$};
+            \draw [black] (25.077,-7.82) arc (234:-54:2.25);
+            \draw (26.4,-3.25) node [above] {$din=0$};
+            \fill [black] (27.72,-7.82) -- (28.6,-7.47) -- (27.79,-6.88);
+            \draw [black] (27.723,-25.08) arc (54:-234:2.25);
+            \draw (26.4,-29.65) node [below] {$din=0$};
+            \fill [black] (25.08,-25.08) -- (24.2,-25.43) -- (25.01,-26.02);
+        \end{tikzpicture}
+    \end{center}
+
+% ----------------------------------------------------------------
+\end{document}
+
+% Ejemplo de etiquetar una imagen
+%        \begin{center}
+%            \includegraphics[width=0.5\textwidth]{FFT_Tabla_de_verdad.png}
+%            \captionof{figure}{Tabla de verdad del flip-flop tipo T. Recuperado de \cite{libro} }
+%            \label{fig:Tabla de verdad FFT}
+%        \end{center}
+
+% Ejemplo de cita \cite{libro}
+% \textbf{figura \ref{fig:Síntesis del FFT}}
+
+% Ejemplo de como crear una imagen con texto a un lado.
+%    \begin{minipage}{0.5\textwidth}
+%        Como resultado de la compilación se obtiene el circuito RTL que se muestra a la derecha.
+%        La síntesis muestra exactamente lo esperado, tres sumadores exactamente iguales.
+%      \end{minipage}
+%    \noindent\begin{minipage}{0.4\textwidth}\raggedleft
+%        \includegraphics[width=1\|extwidth]{vhdl_pp_rtl_sumadores.png}
+%    \end{minipage}%
+
+
+% Dos imagenes una al lado de otra
+%    \begin{multicols}{2} \begin{center} 
+%        \includegraphics[width=0.5\textwidth ]{tabla_rc.png}
+%        \captionof{figure}{Tabla de verdad de un latch tipo RC.}
+%        \label{fig:tt-latch-rc}
+%
+%    \end{center} \columnbreak \begin{center} 
+%        \includegraphics[ width=0.5\textwidth ]{esquema_rc.png}
+%        \captionof{figure}{Esquema del latch tipo RC.}
+%        \label{fig:latch-rc} 
+%   \end{center} \end{multicols}    
+
+
+% Incrustar código fuente
+%   \lstinputlisting[ basewidth=0.5em, caption=circuito.v, language=verilog, numbers=left ]{./recursos/codigo/latch_rc.v}
