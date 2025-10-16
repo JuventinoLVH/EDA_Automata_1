@@ -1,0 +1,66 @@
+# //  Questa Intel Starter FPGA Edition-64
+# //  Version 2024.3 linux_x86_64 Sep 10 2024
+# //
+# // Unpublished work. Copyright 2024 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# vsim ./ 
+# Start time: 01:07:40 on Oct 16,2025
+# ** Error (suppressible): (vsim-19) Failed to access library '' at "".
+# No such file or directory. (errno = ENOENT)
+# Error loading design
+# End time: 01:07:40 on Oct 16,2025, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+vlib work
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
+vlib work work
+# ** Error: (vlib-20003) Option "work" is unknown.
+# Usage: vlib -help
+#        vlib [-short | -dos | -long | -unix ]
+#             [-type (directory|flat)]
+#             [-compress | -nocompress]
+#             [-dirpath] <path>
+#             [-unnamed_designs <count>] [(-lock|-unlock) <design>]
+#             [-locklib|-unlocklib] <library_name>
+# Errors: 1, Warnings: 0
+vlog  rtl/design.sv
+# Questa Intel Starter FPGA Edition-64 vlog 2024.3 Compiler 2024.09 Sep 10 2024
+# Start time: 01:08:19 on Oct 16,2025
+# vlog -reportprogress 300 rtl/design.sv 
+# -- Compiling module FSM
+# 
+# Top level modules:
+# 	FSM
+# End time: 01:08:19 on Oct 16,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog tb/primera_prueba/testbench.sv
+# Questa Intel Starter FPGA Edition-64 vlog 2024.3 Compiler 2024.09 Sep 10 2024
+# Start time: 01:08:33 on Oct 16,2025
+# vlog -reportprogress 300 tb/primera_prueba/testbench.sv 
+# -- Compiling module tb
+# 
+# Top level modules:
+# 	tb
+# End time: 01:08:33 on Oct 16,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim work.tb
+# vsim work.tb 
+# Start time: 01:09:04 on Oct 16,2025
+# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# Loading sv_std.std
+# Loading work.tb(fast)
+# ** Error: Failure to checkout svverification license feature.
+# ** Error: (vsim-1) Unable to checkout verification license - required for testbench features (randomize, randcase, randsequence, covergroup).
+#    Time: 0 ps  Iteration: 0  Instance: /tb File: tb/primera_prueba/testbench.sv
+# Error loading design
+# End time: 01:09:04 on Oct 16,2025, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0

@@ -1,0 +1,5 @@
+BEGIN 1:FSM:fast:work
+    next_state :  1:tb:fast:work
+    state :  1:tb:fast:work
+    din :  1:tb:fast:work
+END 
